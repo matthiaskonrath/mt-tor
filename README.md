@@ -7,6 +7,7 @@ Please also see the official Mikrotik guide on youtube: **[Mikrotik Setup / Conf
 ![TOR Connection](https://github.com/matthiaskonrath/mt-tor/blob/main/Screenshot%202025-12-14%20at%2013.59.08.png)
 
 ### Build and export the package (arm / arm64) by chaning the settings in `build.sh` and running it
+Mikrotik hEX devices run on am arm32v5 CPU and need to use the `Dockerfile_arm32v5` for compilation.
 ```
 nano build.sh
 ./build.sh
@@ -89,8 +90,9 @@ nano build.sh
 ```
 
 ### Import the container
+(to set the storage location use the `root-dir` parameter)
 ```
-/container/add file=mt-tor-arm64.tar interface=veth1 logging=yes
+/container/add file=mt-tor-arm64.tar interface=veth1 logging=yes 
 ```
 
 ### Configure and start the tor container
