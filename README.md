@@ -1,10 +1,10 @@
 # MT-TOR
-Tor Proxy for Mikrotik RouterOS (arm / arm64)
+TOR Proxy for Mikrotik RouterOS (arm / arm64)
 
 Please also see the official Mikrotik guide on youtube: **[Mikrotik Setup / Configuration](https://www.youtube.com/watch?v=ECRjxpb5IgE)**
 
-![Tor Container Screenshot](https://github.com/matthiaskonrath/mt-tor/blob/main/Screenshot%202025-12-14%20at%2013.57.52.png)
-![Tor Connection](https://github.com/matthiaskonrath/mt-tor/blob/main/Screenshot%202025-12-14%20at%2013.59.08.png)
+![TOR Container Screenshot](https://github.com/matthiaskonrath/mt-tor/blob/main/Screenshot%202025-12-14%20at%2013.57.52.png)
+![TOR Connection](https://github.com/matthiaskonrath/mt-tor/blob/main/Screenshot%202025-12-14%20at%2013.59.08.png)
 
 ### Build and export the package (arm / arm64) by chaning the settings in `build.sh` and running it
 ```
@@ -26,19 +26,19 @@ nano build.sh
 /interface/bridge/port add bridge=tor_bridge interface=TODO
 ```
 
-### Add the tor bridge to the LAN interface list
+### Add the TOR bridge to the LAN interface list
 ```
 /interface/list/member/add comment=defconf interface=tor_bridge list=LAN
 ```
 
-### Allow only the tor proxy internet access
+### Allow only the TOR proxy internet access
 (`place-before` looks like it is in the wrong order, but it works)
 ```
 /ip/firewall/filter/add src-address=172.17.0.2 dst-address=0.0.0.0/0 chain=forward action=accept out-interface-list=WAN place-before=0
 /ip/firewall/filter/add src-address=172.17.0.0/24 chain=forward action=drop out-interface-list=WAN place-before=0
 ```
 
-### Setup the tor proxy and add firewall rules to allow only tor traffic
+### Setup the TOR proxy and add firewall rules to allow only TOR traffic
 ```
 /ip/socksify/add name=tor socks5-port=9050 socks5-server=172.17.0.2 disabled=no
 /ip/firewall/nat/add chain=dstnat action=accept protocol=tcp src-address=172.17.0.2 place-before=0
@@ -50,7 +50,7 @@ nano build.sh
 /ip/dhcp-server/network/set dns-server=1.1.1.1 numbers=0
 ```
 
-### Create a DHCP pool and service for the tor traffic
+### Create a DHCP pool and service for the TOR traffic
 ```
 /ip/pool/add name=tor_pool ranges=172.17.0.10-172.17.0.254
 /ip/dhcp-server/add address-pool=tor_pool interface=tor_bridge name=tor_dhcp
@@ -84,7 +84,7 @@ nano build.sh
 ```
 
 ### Configure and start the tor container
-(the DNS setting is important, otherwise it can't establish a connection with the tor servers)
+(the DNS setting is important, otherwise it can't establish a connection with the TOR servers)
 ```
 /container/set mt-tor-arm64 start-on-boot=yes auto-restart-interval=300 dns=1.1.1.1
 /container/start mt-tor-arm64
@@ -100,6 +100,7 @@ Relevant links:
 - https://help.mikrotik.com/docs/display/ROS/Container
 - https://docs.docker.com/build/building/multi-platform/
 - https://help.mikrotik.com/docs/spaces/ROS/pages/343244851/Socksify
+- https://torproject.org/
 
 Check your IP / Tor status:
 - https://check.torproject.org/?lang=en_US
