@@ -45,6 +45,16 @@ nano build.sh
 /ip/firewall/nat/add chain=dstnat action=socksify protocol=tcp socksify-service=tor src-address=172.17.0.0/24 place-before=0
 ```
 
+### (Optional) Restrict access from the tor network / interfaces to the mikrotik router itself
+```
+/ip/firewall/filter/add action=accept chain=input connection-state=established,related src-address=172.17.0.0/24 place-before=0
+/ip/firewall/filter/add action=accept chain=input dst-port=53 protocol=udp src-address=172.17.0.0/24 place-before=0
+/ip/firewall/filter/add action=accept chain=input dst-port=67 protocol=udp src-address=172.17.0.0/24 place-before=0
+/ip/firewall/filter/add action=accept chain=input connection-nat-state=dstnat src-address=172.17.0.0/24 place-before=0
+/ip/firewall/filter/add action=drop chain=input src-address=172.17.0.0/24 place-before=0
+```
+
+
 ### Set the DNS server of the default network to cloudflare (is prevents delays and disruptions)
 ```
 /ip/dhcp-server/network/set dns-server=1.1.1.1 numbers=0
