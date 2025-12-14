@@ -5,7 +5,7 @@
 ### CONFIG ###
 ########################################################################
 ### arm / arm64
-docker_build_arch=arm
+docker_build_arch=arm64
 
 
 
