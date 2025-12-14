@@ -22,10 +22,14 @@ nano build.sh
 ```
 
 ### Add interfaces to the tor bridge (these will only have access to the internet via tor)
-`/interface/bridge/port add bridge=tor_bridge interface=TODO`
+```
+/interface/bridge/port add bridge=tor_bridge interface=TODO
+```
 
 ### Add the tor bridge to the LAN interface list
-`/interface/list/member/add comment=defconf interface=tor_bridge list=LAN`
+```
+/interface/list/member/add comment=defconf interface=tor_bridge list=LAN
+```
 
 ### Allow only the tor proxy internet access
 (`place-before` looks like it is in the wrong order, but it works)
@@ -42,7 +46,9 @@ nano build.sh
 ```
 
 ### Set the DNS server of the default network to cloudflare (is prevents delays and disruptions)
-`/ip/dhcp-server/network/set dns-server=1.1.1.1 numbers=0`
+```
+/ip/dhcp-server/network/set dns-server=1.1.1.1 numbers=0
+```
 
 ### Create a DHCP pool and service for the tor traffic
 ```
@@ -52,10 +58,14 @@ nano build.sh
 ```
 
 ### Download certificates for DoH
-`/tool fetch url=https://curl.se/ca/cacert.pem`
+```
+/tool fetch url=https://curl.se/ca/cacert.pem
+```
 
 ### Import Certificats for DoH
-`/certificate import file-name=cacert.pem`
+```
+/certificate import file-name=cacert.pem
+```
 
 ### Setup the DoH service
 ```
@@ -64,10 +74,14 @@ nano build.sh
 ```
 
 ### Send DoH only over tor
-`/ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=1.1.1.1`
+```
+/ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=1.1.1.1
+```
 
 ### Import the container
-`/container/add file=mt-tor-arm64.tar interface=veth1 logging=yes`
+```
+/container/add file=mt-tor-arm64.tar interface=veth1 logging=yes
+```
 
 ### Configure and start the tor container
 (the DNS setting is important, otherwise it can't establish a connection with the tor servers)
@@ -77,7 +91,9 @@ nano build.sh
 ```
 
 ### Clear all estblished connections (or reboot)
-`/ip/firewall/connection/remove [f]`
+```
+/ip/firewall/connection/remove [f]
+```
 
 
 Relevant links:
