@@ -79,14 +79,25 @@ nano build.sh
 ```
 
 ### Setup the DoH service
+#### Google (works better over TOR)
 ```
-/ip dns set servers=1.1.1.1
-/ip dns set use-doh-server=https://1.1.1.1/dns-query verify-doh-cert=yes
+set allow-remote-requests=yes servers=8.8.8.8,8.8.4.4 use-doh-server=https://dns.google/dns-query verify-doh-cert=yes
+```
+#### Cloudflare
+```
+set allow-remote-requests=yes servers=1.1.1.1,1.0.0.1 use-doh-server=https://1.1.1.1/dns-query verify-doh-cert=yes
 ```
 
 ### Send DoH only over tor
+#### Google (works better over TOR)
+```
+/ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=8.8.8.8
+/ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=8.8.4.4
+```
+#### Cloudflare
 ```
 /ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=1.1.1.1
+/ip/firewall/nat/add chain=output action=socksify socksify-service=tor protocol=tcp dst-address=1.0.0.1
 ```
 
 ### Import the container
