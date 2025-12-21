@@ -1,5 +1,4 @@
-ARG ALPINE_TAG=latest
-FROM alpine:${ALPINE_TAG}
+FROM alpine:latest
 
 LABEL maintainer="Matthias Konrath" \
     description="Mikrotik tor Container"
