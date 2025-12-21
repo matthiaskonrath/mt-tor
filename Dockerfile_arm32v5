@@ -1,5 +1,4 @@
-ARG ALPINE_TAG=latest
-FROM arm32v5/debian:${ALPINE_TAG}
+FROM arm32v5/debian:latest
 
 LABEL maintainer="Matthias Konrath" \
     description="Mikrotik tor Container"
